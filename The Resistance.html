@@ -26,10 +26,15 @@
                 <label for="password">Password<span class="requis">*</span></label>
                 <input type="password" id="password" name="password" value="" size="20" maxlength="20" />
                 <br />
-                <input type="submit" id="submitRegister" value="Register" class="sansLabel" />
+                <input type="submit" id="submitRegister" value="Register"/>
                 <br />
             </fieldset>
-	<div id="results"></div>
+	<div id="resultsRegister"></div>
+  </div>
+  <div class="page" id="ongoinggame">
+	<p>You want to : </p>
+	<input type="submit" id="submitJoin" value="Join the next game"/>
+	<input type="submit" id="submitWatch" value="Watch the current game"/>
   </div>
   <div class="page" id="game">
 	<table id="rounds">
@@ -64,7 +69,7 @@
                 <input type="submit" id="submitConnection" value="Login" class="sansLabel" />
                 <br />
             </fieldset>
-	<div id="results"></div>
+	<div id="resultsConnect"></div>
   </div>
    <script>
 		$("#nav > ul > li > a").on("click", function(event){
@@ -76,21 +81,31 @@
 		$(".page:not(:first-of-type)").hide();
 		
 		$(document).ready(function(){
-			$("#submitRegister").click(function{
+			$("#submitRegister").click(function(){
 				$.ajax({
-				type: "POST",
-				url: "/register",
-				success: function(data) {
-					$("#register").hide();
-					$("#game").show();
-				},
-				error: function(data){
-					$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-				}
-				dataType: "json"
+					type: "POST",
+					url: "/register",
+					success: function(data) {
+						$("#register").hide();
+						$.ajax({
+							type: "POST",
+							url: "/register",
+							success: function(data) {
+								if(data = true){
+									$("#ongoinggame").show();
+								}else{
+									$("game").show();
+								}
+							}
+						});
+					},
+					error: function(data){
+						$("#resultsRegister").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
+					},
+					dataType: "json"
 				});
 			});
-			$("#submitConnection").click(function{
+			$("#submitConnection").click(function(){
 				$.ajax({
 				type: "POST",
 				url: "/login",
@@ -99,8 +114,8 @@
 					$("#game").show();
 				},
 				error: function(data){
-					$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-				}
+					$("#resultsConnect").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
+				},
 				dataType: "json"
 				});
 			});
