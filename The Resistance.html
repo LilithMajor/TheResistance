@@ -51,6 +51,17 @@
 		<td></td>
 		</tr>
 	</table>
+	
+	<fieldset>
+     <legend>Un chat en jQuery</legend>
+      <div id="conversation"></div><br />
+      <form action="#" method="post">
+        <input type="text" id="nom" value="pseudo" size="6">
+        <input type="text" id="message" size="27">
+        <button type="button" id="envoyer" title="Envoyer"><img src="envoyer.gif"></button>
+      </form>
+    </fieldset>
+	
   </div>
   <div class="page" id="connection">
 	<form method="post" action="/login">
@@ -68,6 +79,26 @@
             </fieldset>
     </form>
   </div>
+  <script>
+    $(function() {
+    afficheConversation();    
+    $('#envoyer').click(function() {
+        var nom = $('#nom').val();
+        var message = $('#message').val();
+        $.post('chat.php', {
+            'nom': nom,
+            'message': message
+        }, afficheConversation);
+    });
+
+    function afficheConversation() {
+      $('#conversation').load('ac.htm');
+      $('#message').val('');
+      $('#message').focus();
+    }
+    setInterval(afficheConversation, 4000);
+  });
+  </script>
    <script>
 		$("#nav > ul > li > a").on("click", function(event){
 			var target = $(event.target).attr('data-target');
