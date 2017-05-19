@@ -27,6 +27,14 @@
                 <br />
             </fieldset>
   </div>
+  <div class="page" id="gamelist">
+	<tr>
+		<th>Id</th>
+		<th>Created at</th>
+		<th>Started at</th>
+		<th>Finished at</th>
+	</tr>
+  </div>
   <div class="page" id="ongoinggame">
 	<p>You want to : </p>
 	<input type="submit" id="submitJoin" value="Join the next game"/>
@@ -143,10 +151,7 @@
 					}),
 					url: cfg.domain + "/login",
 					success: function(data) {
-						state.token = data.token;
-						if(typeof state.authenticateInterval == "undefined") {
-							state.authenticateInterval = setInterval(authenticate, 5000);
-						}
+						$(document).fire("loged-in", data);
 					},
 					error: function(data){
 						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
@@ -165,6 +170,13 @@
 				state.login = $("#login").val();
 				state.password = $("#password").val();
 				login();
+			});
+			
+			$(document).on("loged-in", function(event, data) {
+				state.token = data.token;
+				if(typeof state.authenticateInterval == "undefined") {
+					state.authenticateInterval = setInterval(authenticate, 5000);
+				}
 			});
 		});
   </script>
