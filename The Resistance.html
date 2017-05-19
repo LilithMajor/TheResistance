@@ -89,7 +89,7 @@
 						$("#register").hide();
 						$.ajax({
 							type: "POST",
-							url: "/register",
+							url: "/onGoing",
 							success: function(data) {
 								if(data = true){
 									$("#ongoinggame").show();
@@ -111,7 +111,17 @@
 				url: "/login",
 				success: function(data) {
 					$("#connection").hide();
-					$("#game").show();
+					$.ajax({
+							type: "POST",
+							url: "/onGoing",
+							success: function(data) {
+								if(data = true){
+									$("#ongoinggame").show();
+								}else{
+									$("game").show();
+								}
+							}
+						});
 				},
 				error: function(data){
 					$("#resultsConnect").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
