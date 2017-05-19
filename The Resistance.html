@@ -17,9 +17,6 @@
             <fieldset>
                 <legend>Register</legend>
                 <p>Please register to play</p>
-                <label for="name">Name<span class="requis">*</span></label>
-                <input type="text" id="name" name="name" value="" size="20" maxlength="60" />
-                <br />
 				<label for="login">Login<span class="requis">*</span></label>
                 <input type="login" id="login" name="login" value="" size="20" maxlength="60" />
                 <br />
@@ -29,7 +26,6 @@
                 <input type="submit" id="submitRegister" value="Register"/>
                 <br />
             </fieldset>
-	<div id="resultsRegister"></div>
   </div>
   <div class="page" id="ongoinggame">
 	<p>You want to : </p>
@@ -48,7 +44,7 @@
 	</table>
 	<table id="players">
 		<tr>
-		<td></td>
+		<td></td><
 		<td></td>
 		<td></td>
 		<td></td>
@@ -56,7 +52,7 @@
 		</tr>
 	</table>
 	
-	<fieldset>
+	<!-- <fieldset>
      <legend>Un chat en jQuery</legend>
       <div id="conversation"></div><br />
       <form action="#" method="post">
@@ -64,7 +60,7 @@
         <input type="text" id="message" size="27">
         <button type="button" id="envoyer" title="Envoyer"><img src="envoyer.gif"></button>
       </form>
-    </fieldset>
+    </fieldset> -->
 	
   </div>
   <div class="page" id="connection">
@@ -80,10 +76,11 @@
                 <input type="submit" id="submitConnection" value="Login" class="sansLabel" />
                 <br />
             </fieldset>
-	<div id="resultsConnect"></div>
+
   </div>
+  	<div id="results"></div>
   <script>
-    $(function() {
+    /*$(function() {
     afficheConversation();    
     $('#envoyer').click(function() {
         var nom = $('#nom').val();
@@ -100,65 +97,74 @@
       $('#message').focus();
     }
     setInterval(afficheConversation, 4000);
-  });
+  });*/
   </script>
    <script>
-		$("#nav > ul > li > a").on("click", function(event){
-			var target = $(event.target).attr('data-target');
-			$(".page").hide();
-			$("#"+target).show();
-			return false;
-		});
-		$(".page:not(:first-of-type)").hide();
+		
 		
 		$(document).ready(function(){
-			$("#submitRegister").click(function(){
+			var cfg = {
+				domain: 'http://ogg.elwinar.com:56789',
+			};
+			var state = {
+			};
+			
+			$("#nav > ul > li > a").on("click", function(event){
+				var target = $(event.target).attr('data-target');
+				$(".page").hide();
+				$("#"+target).show();
+				return false;
+			});
+			$(".page:not(:first-of-type)").hide();
+			
+			function authenticate(){
+				console.log(state.token);
 				$.ajax({
 					type: "POST",
-					url: "/register",
+					headers: {"token": state.token},
+					url: cfg.domain + "/authenticate",
+					success: function(data){
+						if(data.authenticated === true){
+							return;
+						}
+						login();
+					},
+					dataType:"json",
+				})
+			};
+			
+			function login(){
+				$.ajax({
+					type: "POST",
+					contentType:"application/json",
+					data: JSON.stringify({
+						'login': state.login,
+						'password': state.password,
+					}),
+					url: cfg.domain + "/login",
 					success: function(data) {
-						$("#register").hide();
-						$.ajax({
-							type: "POST",
-							url: "/onGoing",
-							success: function(data) {
-								if(data = true){
-									$("#ongoinggame").show();
-								}else{
-									$("game").show();
-								}
-							}
-						});
+						state.token = data.token;
+						if(typeof state.authenticateInterval == "undefined") {
+							state.authenticateInterval = setInterval(authenticate, 5000);
+						}
 					},
 					error: function(data){
-						$("#resultsRegister").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
+						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
 					},
-					dataType: "json"
+					dataType: "json",
 				});
+			};
+			$("#submitConnection").on("click", function connect(){
+				$("#connection").hide();
+				state.login = $("#login").val();
+				state.password = $("#password").val();
+				login();
 			});
-			$("#submitConnection").click(function(){
-				$.ajax({
-				type: "POST",
-				url: "/login",
-				success: function(data) {
-					$("#connection").hide();
-					$.ajax({
-							type: "POST",
-							url: "/onGoing",
-							success: function(data) {
-								if(data = true){
-									$("#ongoinggame").show();
-								}else{
-									$("game").show();
-								}
-							}
-						});
-				},
-				error: function(data){
-					$("#resultsConnect").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-				},
-				dataType: "json"
-				});
+			$("#submitRegister").on("click", function register(){
+				$("#register").hide();
+				state.login = $("#login").val();
+				state.password = $("#password").val();
+				login();
 			});
 		});
   </script>
