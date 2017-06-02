@@ -49,7 +49,7 @@
 	  </fieldset>
   </div>
   <div class="page" id="onGoingGame">
-	<table>
+	<table id="table_show">
 		<tr id="game_info">
 			<th>Id</th>
 			<th>Name</th>
@@ -139,8 +139,8 @@
 					url: cfg.domain + "/game/"+$(event.target).attr('id'),
 					success: function(data) {
 						$(".page").hide();
-						$("#onGoingGame").show();
-						$('#game_info').children('tr').children('td').remove();
+						$("#onGoingGame").show(); 
+						$('#table_show').children('tbody').children('tr').children('td').remove();
 						$("#game_info").after("<tr><td>"+data.id+"</td><td>"+data.name+"</td><td>"+data.players+"</td><td>"+data.created_at+"</td><td>"+data.started_at+"</td><td>"+data.finished_at+"</td></tr>");
 					},
 					error: function(data){
@@ -156,7 +156,7 @@
 						url: cfg.domain + "/game",
 						success: function(data) {
 							$("#gamelist").show();
-							$('#header_games').children('td').remove();
+							$('#table_header').children('tbody').children('tr').children('td').remove();
 							for(var i=0;i<data.length;i++){
 								$("#header_games").after("<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].players+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' id='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td></tr>");
 							}
