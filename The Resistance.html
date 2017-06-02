@@ -31,22 +31,29 @@
 	  <table id="table_header">
 		<tr id="header_games">
 			<th>Id</th>
+			<th>Name</th>
+			<th>Players</th>
 			<th>Created at</th>
 			<th>Started at</th>
 			<th>Finished at</th>
 			<th>Show the game</th>
 		</tr>
 	  </table>
-	  <form>
+	  <fieldset>
+		  <legend>Create a game</legend>
 		  <label for="name">Name</label>
-		  <input type="textfield" name="name"/>
+		  <input type="textfield" id="name"/>
+		  <label for="players">Number of players</label>
+		  <input type="number" id="players"/>
 		  <input type="submit" id="create" value="Create a game"/>
-	  </form>
+	  </fieldset>
   </div>
   <div class="page" id="onGoingGame">
 	<table>
 		<tr id="game_info">
 			<th>Id</th>
+			<th>Name</th>
+			<th>Players</th>
 			<th>Created at</th>
 			<th>Started at</th>
 			<th>Finished at</th>
@@ -97,10 +104,32 @@
 			};
 			var state = {
 			};
-			$("#return").on("click", function(){
+			$("#return").on("click", function back(){
+				event.preventDefault();
 				$(".page").hide();
-				$("#game_list").show();
-			}
+				$("#gamelist").show();
+			});
+			$("#create").on("click", function createGame(){
+				state.name = $("#name").val();
+				state.players = $("#players").val();
+				$.ajax({
+					type: "POST",
+					headers: {"token": state.token},
+					contentType:"application/json",
+					data: JSON.stringify({
+						'name': state.name,
+						'players': parseInt(state.players),
+					}),
+					url: cfg.domain + "/game",
+					success: function(data) {
+						$(document).trigger("games", data);
+					},
+					error: function(data){
+						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
+					},
+					dataType: "json",
+				});
+			});
 			$("#table_header").on("click","input", function(event){
 				console.log("show");
 				console.log($(event.target));
@@ -111,7 +140,8 @@
 					success: function(data) {
 						$(".page").hide();
 						$("#onGoingGame").show();
-						$("#game_info").after("<tr><td>"+data.id+"</td><td>"+data.created_at+"</td><td>"+data.started_at+"</td><td>"+data.finished_at+"</td></tr>");
+						$('#game_info').children('tr').children('td').remove();
+						$("#game_info").after("<tr><td>"+data.id+"</td><td>"+data.name+"</td><td>"+data.players+"</td><td>"+data.created_at+"</td><td>"+data.started_at+"</td><td>"+data.finished_at+"</td></tr>");
 					},
 					error: function(data){
 						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
@@ -126,9 +156,9 @@
 						url: cfg.domain + "/game",
 						success: function(data) {
 							$("#gamelist").show();
-							console.log();
+							$('#header_games').children('td').remove();
 							for(var i=0;i<data.length;i++){
-								$("#header_games").after("<tr><td>"+data[i].id+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' id='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td></tr>");
+								$("#header_games").after("<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].players+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' id='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td></tr>");
 							}
 						},
 						error: function(data){
