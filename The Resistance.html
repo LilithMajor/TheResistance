@@ -28,7 +28,7 @@
             </fieldset>
   </div>
   <div class="page" id="gamelist">
-	  <table>
+	  <table id="table_header">
 		<tr id="header_games">
 			<th>Id</th>
 			<th>Created at</th>
@@ -52,6 +52,7 @@
 			<th>Finished at</th>
 		</tr>
 	  </table>
+	  <input type="submit" id="return" value="Return"/>
   </div>
   </div>
   <div class="page" id="game">
@@ -96,16 +97,21 @@
 			};
 			var state = {
 			};
-			$("input[value='Show']").on("click", function(){
+			$("#return").on("click", function(){
+				$(".page").hide();
+				$("#game_list").show();
+			}
+			$("#table_header").on("click","input", function(event){
 				console.log("show");
+				console.log($(event.target));
 				$.ajax({
 					type: "GET",
 					headers: {"token": state.token},
 					url: cfg.domain + "/game/"+$(event.target).attr('id'),
 					success: function(data) {
 						$(".page").hide();
-						$(".onGoingGame").show();
-						$("#game_info").after("<tr><td>"+data[i].id+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td></tr>");
+						$("#onGoingGame").show();
+						$("#game_info").after("<tr><td>"+data.id+"</td><td>"+data.created_at+"</td><td>"+data.started_at+"</td><td>"+data.finished_at+"</td></tr>");
 					},
 					error: function(data){
 						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
@@ -122,7 +128,7 @@
 							$("#gamelist").show();
 							console.log();
 							for(var i=0;i<data.length;i++){
-								$("#header_games").after("<tr><td>"+data[i].id+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' name='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td></tr>");
+								$("#header_games").after("<tr><td>"+data[i].id+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' id='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td></tr>");
 							}
 						},
 						error: function(data){
