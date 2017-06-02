@@ -28,12 +28,14 @@
             </fieldset>
   </div>
   <div class="page" id="gamelist">
+  <table>
 	<tr>
 		<th>Id</th>
 		<th>Created at</th>
 		<th>Started at</th>
 		<th>Finished at</th>
 	</tr>
+  <table>
   </div>
   <div class="page" id="ongoinggame">
 	<p>You want to : </p>
@@ -108,7 +110,9 @@
   });*/
   </script>
    <script>
-		
+		function games(){
+			
+		}
 		
 		$(document).ready(function(){
 			var cfg = {
@@ -152,6 +156,7 @@
 					url: cfg.domain + "/login",
 					success: function(data) {
 						$(document).fire("loged-in", data);
+						$(document).fire("games", data);
 					},
 					error: function(data){
 						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
