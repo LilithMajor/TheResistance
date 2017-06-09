@@ -131,8 +131,6 @@
 				});
 			});
 			$("#table_header").on("click","input", function(event){
-				console.log("show");
-				console.log($(event.target));
 				$.ajax({
 					type: "GET",
 					headers: {"token": state.token},
