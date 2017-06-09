@@ -1,18 +1,30 @@
 <html lang="en">
   <head>
-	<link rel="stylesheet" media="screen" type="text/css" title="Exemple" href="main.css"/>
+    <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" type="text/css" title="Exemple" href="main.css"/>
+    <script type="text/javascript" scr="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">    </script>
   </head>
+
   <body>
   <script
   src="https://code.jquery.com/jquery-3.2.1.js"
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
   crossorigin="anonymous"></script>
-   <nav id="nav">
-	<ul>
-		<li><a data-target="register" href="">Register</a></li>
-		<li><a data-target="connection" href="">Connect</a></li>
-	</ul>
-  </nav>
+
+    <nav class="navbar navbar-default" id="nav">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img src="logo.png" alt="THE RESISTANCE"></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        	<ul class="nav navbar-nav">
+        		<li><a data-target="register" href="" class="button-navbar">Register</a></li>
+        		<li><a data-target="connection" href="" class="button-navbar">Connect</a></li>
+        	</ul>
+        </div>
+      </div>
+    </nav>
   <div class="page" id="connection">
 	<fieldset>
 		<legend>Connection</legend>
@@ -27,20 +39,30 @@
 		<br />
 	</fieldset>
   </div>
-  <div class="page" id="register">
-            <fieldset>
-                <legend>Register</legend>
-                <p>Please register to play</p>
-				<label for="login">Login<span class="requis">*</span></label>
-                <input type="login" id="login" name="login" value="" size="20" maxlength="60" />
-                <br />
-                <label for="password">Password<span class="requis">*</span></label>
-                <input type="password" id="password" name="password" value="" size="20" maxlength="20" />
-                <br />
-                <input type="submit" id="submitRegister" value="Register"/>
-                <br />
-            </fieldset>
-  </div>
+    <div class="page form-horizontal well" id="register">
+      <fieldset>
+        <legend class="text-center">Register</legend>
+        <p class="text-center">Please register to play</p>
+
+        <div class="form-group">
+          <label for="login" class="col-lg-2 control-label">Login<span class="requis">*</span></label>
+          <div class="col-lg-10">
+            <input class="form-control" type="login" id="login" name="login" value="" size="20" maxlength="60" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="col-lg-2 control-label">Password<span class="requis">*</span></label>
+          <div class="col-lg-10">
+            <input class="form-control" type="password" id="password" name="password" value="" size="20" maxlength="20" />
+          </div>
+        </div>
+
+        <div class="form-group text-center">
+          <input type="submit" id="submitRegister" class="btn btn-primary" value="Register"/>
+        </div>
+      </fieldset>
+    </div>
   <div class="page" id="gamelist">
 	  <table id="table_header">
 		<tr id="header_games">
@@ -99,7 +121,8 @@
 	<input type="submit" class="return" value="Return"/>
   </div>
   	<div class="page" id="results"></div>
-   <script>	
+    
+   <script>
 		$(document).ready(function(){
 			var cfg = {
 				domain: 'http://ogg.elwinar.com:56789',
@@ -161,7 +184,7 @@
 					url: cfg.domain + "/game/"+$(event.target).attr('name'),
 					success: function(data) {
 						$(".page").hide();
-						$("#onGoingGame").show(); 
+						$("#onGoingGame").show();
 						$('#table_show').children('tbody').children('tr').children('td').remove();
 						$("#game_info").after("<tr><td>"+data.id+"</td><td>"+data.name+"</td><td>"+data.players+"</td><td>"+data.joined+"</td><td>"+data.created_at+"</td><td>"+data.started_at+"</td><td>"+data.finished_at+"</td></tr>");
 					},
@@ -237,13 +260,13 @@
 						dataType: "json",
 				});
 			});
-			$("#nav > ul > li > a").on("click", function(event){
+			$("#nav .button-navbar").on("click", function(event){
 				var target = $(event.target).attr('data-target');
 				$(".page").hide();
 				$("#"+target).show();
 				return false;
 			});
-			
+
 			function authenticate(){
 				$.ajax({
 					type: "POST",
@@ -258,7 +281,7 @@
 					dataType:"json",
 				})
 			};
-			
+
 			function login(){
 				$.ajax({
 					type: "POST",
@@ -290,7 +313,7 @@
 				state.password = $("#password").val();
 				login();
 			});
-			
+
 			$(document).on("loged-in", function(event, data) {
 				localStorage.setItem("token",data.token);
 				if(typeof state.authenticateInterval == "undefined") {
