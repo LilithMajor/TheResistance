@@ -75,30 +75,30 @@
 			<th>Finished at</th>
 		</tr>
 	  </table>
-	  <input type="submit" id="return" value="Return"/>
+	  <input type="submit" class="return" value="Return"/>
   </div>
   </div>
   <div class="page" id="game">
 	<table id="rounds">
 		<tr>
-		<td>1st round</td>
-		<td>2nd round</td>
-		<td>3rd round</td>
-		<td>4th round</td>
-		<td>5th round</td>
+			<th>1st round</th>
+			<th>2nd round</th>
+			<th>3rd round</th>
+			<th>4th round</th>
+			<th>5th round</th>
 		</tr>
 	</table>
 	<table id="players">
-		<tr>
-		<td></td><
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<tr id="header_players">
+			<th>Player ID</th>
+			<th>User ID</th>
+			<th>Name</th>
+			<th>Joined at</th>
 		</tr>
 	</table>
+	<input type="submit" class="return" value="Return"/>
   </div>
-  	<div id="results"></div>
+  	<div class="page" id="results"></div>
    <script>	
 		$(document).ready(function(){
 			var cfg = {
@@ -117,7 +117,7 @@
 							$("#gamelist").show();
 							$('#table_header').children('tbody').children('tr').children('td').remove();
 							for(var i=0;i<data.length;i++){
-								$("#header_games").after("<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].players+"</td><td>"+data[i].joined+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' id='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td></tr>");
+								$("#header_games").after("<tr><td>"+data[i].id+"</td><td name='gameName'>"+data[i].name+"</td><td>"+data[i].players+"</td><td>"+data[i].joined+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' id='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td><td><button type='button' name='"+data[i].id+"'>Join</button></td></tr>");
 							}
 						},
 						error: function(data){
@@ -128,7 +128,7 @@
 			}else{
 				$(".page:not(:first-of-type)").hide();
 			}
-			$("#return").on("click", function back(){
+			$(".return").on("click", function back(){
 				event.preventDefault();
 				$(".page").hide();
 				$("#gamelist").show();
@@ -158,12 +158,60 @@
 				$.ajax({
 					type: "GET",
 					headers: {"token": localStorage.getItem("token")},
-					url: cfg.domain + "/game/"+$(event.target).attr('id'),
+					url: cfg.domain + "/game/"+$(event.target).attr('name'),
 					success: function(data) {
 						$(".page").hide();
 						$("#onGoingGame").show(); 
 						$('#table_show').children('tbody').children('tr').children('td').remove();
 						$("#game_info").after("<tr><td>"+data.id+"</td><td>"+data.name+"</td><td>"+data.players+"</td><td>"+data.joined+"</td><td>"+data.created_at+"</td><td>"+data.started_at+"</td><td>"+data.finished_at+"</td></tr>");
+					},
+					error: function(data){
+						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
+					},
+					dataType: "json",
+				});
+			});
+			$("#table_header").on("click", "button", function(event){
+				idGame = $(event.target).attr('name');
+				$.ajax({
+					type: "GET",
+					headers: {"token": localStorage.getItem("token")},
+					url: cfg.domain + "/game/"+$(event.target).attr('name'),
+					success: function(data) {
+						$.ajax({
+						type: "POST",
+						headers: {"token": localStorage.getItem("token")},
+						contentType:"application/json",
+						data: JSON.stringify({
+							'name': data.name,
+						}),
+						url: cfg.domain + "/game/"+$(event.target).attr('name')+"/join",
+						success: function(data) {
+							$(".page").hide();
+							$("#game").show();
+							$('#rounds').children('p').remove();
+							$("#rounds").after("<p>Congratulation you have joined the game !</p>");
+								$.ajax({
+									type: "GET",
+									headers: {"token": localStorage.getItem("token")},
+									url: cfg.domain + "/game/"+idGame+"/players",
+									success: function(data) {
+										$('#rounds').children('tbody').children('tr').children('td').remove();
+										for(var i=0;i<data.length;i++){
+											$("#header_players").after("<tr><td>"+data[i].id+"</td><td>"+data[i].user_id+"</td><td>"+data[i].name+"</td><td>"+data[i].joined_at+"</td></tr>");
+										}
+									},
+									error: function(data){
+										$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
+									},
+									dataType: "json",
+								});
+						},
+						error: function(data){
+							$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
+						},
+						dataType: "json",
+						});
 					},
 					error: function(data){
 						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
@@ -180,7 +228,7 @@
 							$("#gamelist").show();
 							$('#table_header').children('tbody').children('tr').children('td').remove();
 							for(var i=0;i<data.length;i++){
-								$("#header_games").after("<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].players+"</td><td>"+data[i].joined+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' id='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td></tr>");
+								$("#header_games").after("<tr><td>"+data[i].id+"</td><td name='gameName'>"+data[i].name+"</td><td>"+data[i].players+"</td><td>"+data[i].joined+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' name='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td><td><button type='button' name='"+data[i].id+"'>Join</button></td></tr>");
 							}
 						},
 						error: function(data){
@@ -197,7 +245,6 @@
 			});
 			
 			function authenticate(){
-				console.log(state.token);
 				$.ajax({
 					type: "POST",
 					headers: {"token": localStorage.getItem("token")},
@@ -245,7 +292,6 @@
 			});
 			
 			$(document).on("loged-in", function(event, data) {
-				state.token = data.token;
 				localStorage.setItem("token",data.token);
 				if(typeof state.authenticateInterval == "undefined") {
 					state.authenticateInterval = setInterval(authenticate, 5000);
