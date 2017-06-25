@@ -172,6 +172,7 @@ $(document).ready(function(){
       success: function(data) {
         $(document).trigger("loged-in", data);
         $(document).trigger("games", data);
+        $("#connect_buttons").hide()
       },
       error: function(data){
         $("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
