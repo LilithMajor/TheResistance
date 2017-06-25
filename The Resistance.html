@@ -1,326 +1,162 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
-    <link rel="stylesheet" media="screen" type="text/css" title="Exemple" href="main.css"/>
-    <script type="text/javascript" scr="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">    </script>
+    <link rel="stylesheet" media="screen" type="text/css" href="css/main.css"/>
+    <link rel="stylesheet" href="http://bootswatch.com/slate/bootstrap.min.css"/>
+    <meta charset="utf-8">
+    <title>The Resistance</title>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
   </head>
 
-  <body>
-  <script
-  src="https://code.jquery.com/jquery-3.2.1.js"
-  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-  crossorigin="anonymous"></script>
+  <body class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <nav class="navbar navbar-default" id="nav">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" data-_extension-text-contrast="">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">The Resistance</a>
+          </div>
 
-    <nav class="navbar navbar-default" id="nav">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#"><img src="logo.png" alt="THE RESISTANCE"></a>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          	<ul class="nav navbar-nav" id="connect_buttons">
+          		<li><a data-target="register" href="" class="button-navbar">Register</a></li>
+          		<li><a data-target="connection" href="" class="button-navbar">Connect</a></li>
+          	</ul>
+          </div>
         </div>
+      </nav>
+      <div class="page form-horizontal well form-home" id="connection">
+      	<fieldset>
+      		<legend class="text-center">Connection</legend>
+          <p class="text-center">Please log in to play</p>
+          <div class="form-group">
+            <label for="login" class="col-lg-2 control-label">Login<span class="requis">*</span></label>
+            <div class="col-lg-10">
+              <input class="form-control" type="login" id="login" name="login" value="" size="20" maxlength="60" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password" class="col-lg-2 control-label">Password<span class="requis">*</span></label>
+            <div class="col-lg-10">
+              <input class="form-control" type="password" id="password" name="password" value="" size="20" maxlength="20" />
+            </div>
+          </div>
+          <div class="form-group text-center">
+            <input type="submit" id="submitConnection" value="Login" class="btn btn-primary" />
+          </div>
+      	</fieldset>
+      </div>
+        <div class="page form-horizontal well form-home" id="register">
+          <fieldset>
+            <legend class="text-center">Register</legend>
+            <p class="text-center">Please register to play</p>
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        	<ul class="nav navbar-nav">
-        		<li><a data-target="register" href="" class="button-navbar">Register</a></li>
-        		<li><a data-target="connection" href="" class="button-navbar">Connect</a></li>
-        	</ul>
+            <div class="form-group">
+              <label for="login" class="col-lg-2 control-label">Login<span class="requis">*</span></label>
+              <div class="col-lg-10">
+                <input class="form-control" type="login" id="login" name="login" value="" size="20" maxlength="60" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="col-lg-2 control-label">Password<span class="requis">*</span></label>
+              <div class="col-lg-10">
+                <input class="form-control" type="password" id="password" name="password" value="" size="20" maxlength="20" />
+              </div>
+            </div>
+
+            <div class="form-group text-center">
+              <input type="submit" id="submitRegister" class="btn btn-primary" value="Register"/>
+            </div>
+          </fieldset>
+        </div>
+      <div class="page" id="gamelist">
+      	  <table class="table table-bordered" id="table_header">
+          <thead>
+
+          </thead>
+      		<tr class="" id="header_games">
+      			<th>Id</th>
+      			<th>Name</th>
+      			<th>Players</th>
+      			<th>Joined</th>
+      			<th>Created at</th>
+      			<th>Started at</th>
+      			<th>Finished at</th>
+      			<th>Show the game</th>
+      		</tr>
+        </table>
+
+        <div class="form form-horizontal well form-home ">
+          <fieldset>
+           <legend>Create a game</legend>
+           <div class="form-group">
+             <label for="name" class="col-lg-6">Name</label>
+             <div class="col-lg-6">
+               <input class="form-control" type="textfield" id="name"/>
+             </div>
+           </div>
+           <div class="form-group">
+             <label for="players" class="col-lg-6">Number of players</label>
+             <div class="col-lg-6">
+               <input class="form-control" type="number" id="players" min="5" max="10"/>
+             </div>
+           </div>
+           <div class="form-group text-center">
+             <input class="btn btn-default" type="submit" id="create" value="Create a game"/>
+           </div>
+         </fieldset>
         </div>
       </div>
-    </nav>
-  <div class="page" id="connection">
-	<fieldset>
-		<legend>Connection</legend>
-		<p>Please log in to play</p>
-		<label for="login">Login<span class="requis">*</span></label>
-		<input type="login" id="login" name="login" value="" size="20" maxlength="60" />
-		<br />
-		<label for="password">Password<span class="requis">*</span></label>
-		<input type="password" id="password" name="password" value="" size="20" maxlength="20" />
-		<br />
-		<input type="submit" id="submitConnection" value="Login" class="sansLabel" />
-		<br />
-	</fieldset>
-  </div>
-    <div class="page form-horizontal well" id="register">
-      <fieldset>
-        <legend class="text-center">Register</legend>
-        <p class="text-center">Please register to play</p>
 
-        <div class="form-group">
-          <label for="login" class="col-lg-2 control-label">Login<span class="requis">*</span></label>
-          <div class="col-lg-10">
-            <input class="form-control" type="login" id="login" name="login" value="" size="20" maxlength="60" />
-          </div>
-        </div>
+      <div class="page" id="onGoingGame">
+      	<table class="table table-bordered" id="table_show">
+      		<tr id="game_info">
+      			<th>Id</th>
+      			<th>Name</th>
+      			<th>Players</th>
+      			<th>Joined</th>
+      			<th>Created at</th>
+      			<th>Started at</th>
+      			<th>Finished at</th>
+      		</tr>
+    	  </table>
+    	  <input class="btn btn-default return" type="submit" value="Return"/>
+      </div>
+      <div class="page" id="game">
+      	<table id="rounds">
+          <thead class="text-center">
+        		<tr>
+        			<td class="text-primary">1st round</td>
+        			<td>2nd round</td>
+        			<td>3rd round</td>
+        			<td>4th round</td>
+        			<td>5th round</td>
+        		</tr>
+          </thead>
+      	</table>
+      	<table id="players" class="table table-bordered">
+      		<tr id="header_players">
+      			<th>Player ID</th>
+      			<th>User ID</th>
+      			<th>Name</th>
+      			<th>Joined at</th>
+      		</tr>
+      	</table>
+      	<input type="submit" class="return btn btn-default" value="Return"/>
+      </div>
+      <div class="page" id="results"></div>
 
-        <div class="form-group">
-          <label for="password" class="col-lg-2 control-label">Password<span class="requis">*</span></label>
-          <div class="col-lg-10">
-            <input class="form-control" type="password" id="password" name="password" value="" size="20" maxlength="20" />
-          </div>
-        </div>
-
-        <div class="form-group text-center">
-          <input type="submit" id="submitRegister" class="btn btn-primary" value="Register"/>
-        </div>
-      </fieldset>
     </div>
-  <div class="page" id="gamelist">
-	  <table id="table_header">
-		<tr id="header_games">
-			<th>Id</th>
-			<th>Name</th>
-			<th>Players</th>
-			<th>Joined</th>
-			<th>Created at</th>
-			<th>Started at</th>
-			<th>Finished at</th>
-			<th>Show the game</th>
-		</tr>
-	  </table>
-	  <fieldset>
-		  <legend>Create a game</legend>
-		  <label for="name">Name</label>
-		  <input type="textfield" id="name"/>
-		  <label for="players">Number of players</label>
-		  <input type="number" id="players"/>
-		  <input type="submit" id="create" value="Create a game"/>
-	  </fieldset>
-  </div>
-  <div class="page" id="onGoingGame">
-	<table id="table_show">
-		<tr id="game_info">
-			<th>Id</th>
-			<th>Name</th>
-			<th>Players</th>
-			<th>Joined</th>
-			<th>Created at</th>
-			<th>Started at</th>
-			<th>Finished at</th>
-		</tr>
-	  </table>
-	  <input type="submit" class="return" value="Return"/>
-  </div>
-  </div>
-  <div class="page" id="game">
-	<table id="rounds">
-		<tr>
-			<th>1st round</th>
-			<th>2nd round</th>
-			<th>3rd round</th>
-			<th>4th round</th>
-			<th>5th round</th>
-		</tr>
-	</table>
-	<table id="players">
-		<tr id="header_players">
-			<th>Player ID</th>
-			<th>User ID</th>
-			<th>Name</th>
-			<th>Joined at</th>
-		</tr>
-	</table>
-	<input type="submit" class="return" value="Return"/>
-  </div>
-  	<div class="page" id="results"></div>
-    
-   <script>
-		$(document).ready(function(){
-			var cfg = {
-				domain: 'http://ogg.elwinar.com:56789',
-			};
-			var state = {
-			};
-			if(localStorage.getItem("token")!=null){
-				console.log("test");
-				$.ajax({
-						type: "GET",
-						headers: {"token": localStorage.getItem("token")},
-						url: cfg.domain + "/game",
-						success: function(data) {
-							$(".page").hide();
-							$("#gamelist").show();
-							$('#table_header').children('tbody').children('tr').children('td').remove();
-							for(var i=0;i<data.length;i++){
-								$("#header_games").after("<tr><td>"+data[i].id+"</td><td name='gameName'>"+data[i].name+"</td><td>"+data[i].players+"</td><td>"+data[i].joined+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' id='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td><td><button type='button' name='"+data[i].id+"'>Join</button></td></tr>");
-							}
-						},
-						error: function(data){
-							$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-						},
-						dataType: "json",
-				});
-			}else{
-				$(".page:not(:first-of-type)").hide();
-			}
-			$(".return").on("click", function back(){
-				event.preventDefault();
-				$(".page").hide();
-				$("#gamelist").show();
-			});
-			$("#create").on("click", function createGame(){
-				state.name = $("#name").val();
-				state.players = $("#players").val();
-				$.ajax({
-					type: "POST",
-					headers: {"token": localStorage.getItem("token")},
-					contentType:"application/json",
-					data: JSON.stringify({
-						'name': state.name,
-						'players': parseInt(state.players),
-					}),
-					url: cfg.domain + "/game",
-					success: function(data) {
-						$(document).trigger("games", data);
-					},
-					error: function(data){
-						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-					},
-					dataType: "json",
-				});
-			});
-			$("#table_header").on("click","input", function(event){
-				$.ajax({
-					type: "GET",
-					headers: {"token": localStorage.getItem("token")},
-					url: cfg.domain + "/game/"+$(event.target).attr('name'),
-					success: function(data) {
-						$(".page").hide();
-						$("#onGoingGame").show();
-						$('#table_show').children('tbody').children('tr').children('td').remove();
-						$("#game_info").after("<tr><td>"+data.id+"</td><td>"+data.name+"</td><td>"+data.players+"</td><td>"+data.joined+"</td><td>"+data.created_at+"</td><td>"+data.started_at+"</td><td>"+data.finished_at+"</td></tr>");
-					},
-					error: function(data){
-						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-					},
-					dataType: "json",
-				});
-			});
-			$("#table_header").on("click", "button", function(event){
-				idGame = $(event.target).attr('name');
-				$.ajax({
-					type: "GET",
-					headers: {"token": localStorage.getItem("token")},
-					url: cfg.domain + "/game/"+$(event.target).attr('name'),
-					success: function(data) {
-						$.ajax({
-						type: "POST",
-						headers: {"token": localStorage.getItem("token")},
-						contentType:"application/json",
-						data: JSON.stringify({
-							'name': data.name,
-						}),
-						url: cfg.domain + "/game/"+$(event.target).attr('name')+"/join",
-						success: function(data) {
-							$(".page").hide();
-							$("#game").show();
-							$('#rounds').children('p').remove();
-							$("#rounds").after("<p>Congratulation you have joined the game !</p>");
-								$.ajax({
-									type: "GET",
-									headers: {"token": localStorage.getItem("token")},
-									url: cfg.domain + "/game/"+idGame+"/players",
-									success: function(data) {
-										$('#rounds').children('tbody').children('tr').children('td').remove();
-										for(var i=0;i<data.length;i++){
-											$("#header_players").after("<tr><td>"+data[i].id+"</td><td>"+data[i].user_id+"</td><td>"+data[i].name+"</td><td>"+data[i].joined_at+"</td></tr>");
-										}
-									},
-									error: function(data){
-										$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-									},
-									dataType: "json",
-								});
-						},
-						error: function(data){
-							$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-						},
-						dataType: "json",
-						});
-					},
-					error: function(data){
-						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-					},
-					dataType: "json",
-				});
-			});
-			$(document).on("games", function gamelist(event, data){
-				$.ajax({
-						type: "GET",
-						headers: {"token": localStorage.getItem("token")},
-						url: cfg.domain + "/game",
-						success: function(data) {
-							$("#gamelist").show();
-							$('#table_header').children('tbody').children('tr').children('td').remove();
-							for(var i=0;i<data.length;i++){
-								$("#header_games").after("<tr><td>"+data[i].id+"</td><td name='gameName'>"+data[i].name+"</td><td>"+data[i].players+"</td><td>"+data[i].joined+"</td><td>"+data[i].created_at+"</td><td>"+data[i].started_at+"</td><td>"+data[i].finished_at+"</td><td><input type='submit' name='"+data[i].id+"' value='Show' size='20' maxlength='60' /></td><td><button type='button' name='"+data[i].id+"'>Join</button></td></tr>");
-							}
-						},
-						error: function(data){
-							$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-						},
-						dataType: "json",
-				});
-			});
-			$("#nav .button-navbar").on("click", function(event){
-				var target = $(event.target).attr('data-target');
-				$(".page").hide();
-				$("#"+target).show();
-				return false;
-			});
-
-			function authenticate(){
-				$.ajax({
-					type: "POST",
-					headers: {"token": localStorage.getItem("token")},
-					url: cfg.domain + "/authenticate",
-					success: function(data){
-						if(data.authenticated === true){
-							return;
-						}
-						login();
-					},
-					dataType:"json",
-				})
-			};
-
-			function login(){
-				$.ajax({
-					type: "POST",
-					contentType:"application/json",
-					data: JSON.stringify({
-						'login': state.login,
-						'password': state.password,
-					}),
-					url: cfg.domain + "/login",
-					success: function(data) {
-						$(document).trigger("loged-in", data);
-						$(document).trigger("games", data);
-					},
-					error: function(data){
-						$("#results").html("<p style='background-color:red'>Sorry something went wrong, please try again !</p>");
-					},
-					dataType: "json",
-				});
-			};
-			$("#submitConnection").on("click", function connect(){
-				$("#connection").hide();
-				state.login = $("#login").val();
-				state.password = $("#password").val();
-				login();
-			});
-			$("#submitRegister").on("click", function register(){
-				$("#register").hide();
-				state.login = $("#login").val();
-				state.password = $("#password").val();
-				login();
-			});
-
-			$(document).on("loged-in", function(event, data) {
-				localStorage.setItem("token",data.token);
-				if(typeof state.authenticateInterval == "undefined") {
-					state.authenticateInterval = setInterval(authenticate, 5000);
-				}
-			});
-		});
-  </script>
+    <div class="col-md-2"></div>
   </body>
 </html>

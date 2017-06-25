@@ -1,0 +1,74 @@
+/* Custom fonts */
+@font-face {
+    font-family: hunter;
+    src: url('../fonts/HUNTER.woff');
+}
+
+@font-face {
+    font-family: carbon;
+    src: url('../fonts/carbon.ttf');
+}
+
+@font-face {
+    font-family: impact-label;
+    src: url('../fonts/Impact Label.woff');
+}
+
+@font-face {
+    font-family: elite;
+    src: url('../fonts/SpecialElite.ttf');
+}
+
+* {
+  font-family: elite;
+}
+
+body {
+  background-image: url('../images/background.jpg');
+  background-attachment: fixed;
+}
+
+/* Mobile specs */
+@media screen and (max-width: 640px) {
+  body {
+    background-size: 500%
+  }
+}
+
+/* != Mobile specs */
+@media screen and (min-width: 640px) {
+  body {
+    background-size: 100%;
+  }
+
+  .form-home {
+    width: 40%;
+    margin-left: 30%;
+  }
+}
+
+.navbar-default {
+  margin-top: 5px;
+}
+
+.navbar-header img {
+  width: 120px;
+  height: 100%;
+}
+
+.navbar-brand {
+  font-weight: bold;
+    font-family: carbon;
+}
+
+.alert {
+  margin-top: 10px;
+}
+
+#rounds {
+  width: 100%;
+}
+
+#rounds tr td {
+  padding: 1%;
+}
